@@ -7,11 +7,13 @@ class LogCog:
         self.bot = bot
 
     async def on_message_delete(self, message):
+        log_channel = get_log_channel(message.guild)
         if message.author.bot:
             return
         if message.content.startswith('!'):
             return
-        log_channel = get_log_channel(message.guild)
+        for att in message.attachments:
+            await log_channel.send(f'{message.author.display_name} deleted attachment {att.proxy_url}')
         await log_channel.send(f'{message.author.display_name} deleted message `\'{message.content}\'`')
 
     async def on_member_update(self, before: discord.Member, after: discord.Member):
