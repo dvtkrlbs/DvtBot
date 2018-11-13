@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import traceback
-
+import subprocess
 
 class AdminCog:
     def __init__(self, bot):
@@ -40,6 +40,16 @@ class AdminCog:
             await ctx.send(f'```py\n{traceback.format_exc()}\n```')
         else:
             await ctx.send('\N{OK HAND SIGN}')
+
+    @commands.command(hidden=True)
+    async def fetch(self, ctx):
+        try:
+            subprocess.call(["git", "fetch"])
+        except Exception as e:
+                await ctx.send(f'```py\n{traceback.format_exc()}\n```')
+        else:
+            await ctx.send('\N{OK HAND SIGN}')
+            
 
 
 def setup(bot):
