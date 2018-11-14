@@ -44,6 +44,14 @@ class LogCog:
         log_channel = get_log_channel(guild)
         await log_channel.send(f'User unbanned: {user.name}')
 
+    async def on_member_join(self, member):
+        log_channel = get_log_channel(member.guild)
+        await log_channel.send(f'Member joined: {member.name}')
+
+    async def on_member_remove(self, member):
+        log_channel = get_log_channel(member.guild)
+        await log_channel.send(f'Member left (or kicked): {member.name}')
+
     @commands.command(hidden=True)
     @commands.is_owner()
     async def debug(self, ctx, member: discord.Member):
