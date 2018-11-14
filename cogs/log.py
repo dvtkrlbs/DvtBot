@@ -36,6 +36,14 @@ class LogCog:
         message = await self.bot.get_channel(payload.channel_id).get_message(payload.message_id)
         await log_channel.send(f'Reaction removed: {self.bot.get_user(payload.user_id)} removed `{payload.emoji.name}` from message: `{message.content}` from {message.author}')
 
+    async def on_member_ban(self, guild: discord.Guild, user: Union[discord.User, discord.Member]):
+        log_channel = get_log_channel(guild)
+        await log_channel.send(f'User banned: {user.name}')
+
+    async def on_member_unban(self, guild: discord.Guild, user: Union[discord.User, discord.Member]):
+        log_channel = get_log_channel(guild)
+        await log_channel.send(f'User unbanned: {user.name}')
+
     @commands.command(hidden=True)
     @commands.is_owner()
     async def debug(self, ctx, member: discord.Member):
