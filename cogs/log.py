@@ -28,7 +28,7 @@ class LogCog:
             await log_channel.send(f'Status: {after.display_name}: {before.status}, {after.status}')
         # down there before or after could be None
         if before.nick != after.nick:
-            await log_channel.send(f'Nick: {after.display_name}: {before.nick}, {after.nick}')
+            await log_channel.send(f'Nick: {after.display_name}: {before.nick or before.name}, {after.nick or after.name}')
         if before.avatar != after.avatar:
             await log_channel.send(f'Avatar: {after.display_name}: {before.avatar_url}, {after.avatar_url}')
 
