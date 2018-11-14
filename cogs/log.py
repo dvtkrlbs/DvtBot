@@ -30,6 +30,11 @@ class LogCog:
         if before.avatar != after.avatar:
             await log_channel.send(f'Avatar: {after.display_name}: {before.avatar_url}, {after.avatar_url}')
 
+    async def on_raw_reaction_remove(self, payload):
+        log_channel = get_log_channel(self.bot.get_guild(payload.guild_id))
+        message = await self.bot.get_channel(payload.channel_id).get_message(payload.message_id)
+        await log_channel.send(f'Reaction removed: {self.bot.get_user(payload.user_id)} removed `{payload.emoji.name}` from message: `{message.content}` from {message.author}')
+
     @commands.command(hidden=True)
     @commands.is_owner()
     async def debug(self, ctx, member: discord.Member):
