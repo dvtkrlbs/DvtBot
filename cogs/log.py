@@ -1,13 +1,14 @@
 import discord
 from discord.ext import commands
 from .utils.utils import get_log_channel
+from typing import Union
 
 
 class LogCog:
     def __init__(self, bot):
         self.bot = bot
 
-    async def on_message_delete(self, message):
+    async def on_message_delete(self, message: discord.Message):
         log_channel = get_log_channel(message.guild)
         if message.author.bot:
             return
@@ -30,7 +31,7 @@ class LogCog:
         if before.avatar != after.avatar:
             await log_channel.send(f'Avatar: {after.display_name}: {before.avatar_url}, {after.avatar_url}')
 
-    async def on_raw_reaction_remove(self, payload):
+    async def on_raw_reaction_remove(self, payload: discord.RawReactionActionEvent):
         log_channel = get_log_channel(self.bot.get_guild(payload.guild_id))
         message = await self.bot.get_channel(payload.channel_id).get_message(payload.message_id)
         await log_channel.send(f'Reaction removed: {self.bot.get_user(payload.user_id)} removed `{payload.emoji.name}` from message: `{message.content}` from {message.author}')
