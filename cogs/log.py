@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from .utils.utils import get_log_channel
 
+
 class LogCog:
     def __init__(self, bot):
         self.bot = bot
@@ -37,6 +38,7 @@ class LogCog:
             await ctx.send(f'{isinstance(member.activity, discord.Streaming)}')
         except Exception as e:
             await ctx.send(e)
+
 
 def setup(bot):
     bot.add_cog(LogCog(bot))
