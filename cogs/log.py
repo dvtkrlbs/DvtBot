@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from .utils.utils import get_log_channel
 from typing import Union
-
+from .utils import embeds
 
 class LogCog:
     def __init__(self, bot):
@@ -16,7 +16,9 @@ class LogCog:
             return
         for att in message.attachments:
             await log_channel.send(f'{message.author.display_name} deleted attachment {att.proxy_url}')
-        await log_channel.send(f'{message.author.display_name} deleted message `\'{message.content}\'`')
+        # await log_channel.send(f'{message.author.display_name} deleted message `\'{message.content}\'`')
+        embed = await embeds.message_delete_embed(self, message)
+        await log_channel.send(embed=embed)
 
     async def on_member_update(self, before: discord.Member, after: discord.Member):
         log_channel = get_log_channel(before.guild)
