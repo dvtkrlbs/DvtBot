@@ -4,6 +4,7 @@ from .utils.utils import get_log_channel
 from typing import Union
 from .utils import embeds
 
+
 class LogCog:
     def __init__(self, bot):
         self.bot = bot
@@ -35,8 +36,10 @@ class LogCog:
 
     async def on_raw_reaction_remove(self, payload: discord.RawReactionActionEvent):
         log_channel = get_log_channel(self.bot.get_guild(payload.guild_id))
-        message = await self.bot.get_channel(payload.channel_id).get_message(payload.message_id)
-        await log_channel.send(f'Reaction removed: {self.bot.get_user(payload.user_id)} removed `{payload.emoji.name}` from message: `{message.content}` from {message.author}')
+        # message = await self.bot.get_channel(payload.channel_id).get_message(payload.message_id)
+        # await log_channel.send(f'Reaction removed: {self.bot.get_user(payload.user_id)} removed `{payload.emoji.name}` from message: `{message.content}` from {message.author}')
+        embed = await embeds.reaction_remove_embed(self, payload)
+        await log_channel.send(embed=embed)
 
     async def on_member_ban(self, guild: discord.Guild, user: Union[discord.User, discord.Member]):
         log_channel = get_log_channel(guild)
@@ -66,5 +69,3 @@ class LogCog:
 
 def setup(bot):
     bot.add_cog(LogCog(bot))
-
-
